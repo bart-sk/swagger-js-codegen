@@ -45,7 +45,7 @@
         {{/parameters}}
         }
     {{/hasExtraHeader}}  
-    skip401Callback: boolean = false,
+    skip401Callback = false,
 ): Promise<{{#successResponses}} {{> type}} {{^last}} | {{/last}} {{/successResponses}}{{^successResponses}}void{{/successResponses}}>
 {
     let path = '{{&path}}';
