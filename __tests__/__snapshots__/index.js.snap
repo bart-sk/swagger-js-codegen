@@ -993,6 +993,7 @@ class Api {
       queryParam4?: Array<string>;
       queryParam5?: string;
     },
+    skip401Callback = false,
   ): Promise<{
     items?: Array<{
       _id?: string;
@@ -1076,6 +1077,7 @@ class Api {
       {},
       headers,
       queryParameters,
+      skip401Callback,
     );
   }
   /**
@@ -1095,6 +1097,7 @@ class Api {
 
       ips?: Array<string | null> | null;
     },
+    skip401Callback = false,
   ): Promise<Something> {
     let path =
       '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
@@ -1117,6 +1120,7 @@ class Api {
       body,
       headers,
       queryParameters,
+      skip401Callback,
     );
   }
   /**
@@ -1129,6 +1133,7 @@ class Api {
     form: {
       upload: File;
     },
+    skip401Callback = false,
   ): Promise<{
     _id?: string;
   }> {
@@ -1146,6 +1151,7 @@ class Api {
       form,
       headers,
       queryParameters,
+      skip401Callback,
     );
   }
   /**
@@ -1153,7 +1159,10 @@ class Api {
    * @method
    * @name Api#endpointWithoutOkResponse
    */
-  endpointWithoutOkResponse(parameters: {} = {}): Promise<void> {
+  endpointWithoutOkResponse(
+    parameters: {} = {},
+    skip401Callback = false,
+  ): Promise<void> {
     let path = '/endpoint-without-ok-response';
     let headers: Headers = new Headers();
     let queryParameters: QueryParameters = {};
@@ -1166,6 +1175,7 @@ class Api {
       {},
       headers,
       queryParameters,
+      skip401Callback,
     );
   }
   /**
@@ -1175,6 +1185,7 @@ class Api {
    */
   endpointWithAllOf(
     parameters: {} = {},
+    skip401Callback = false,
   ): Promise<
     Array<{
       _id: string;
@@ -1194,6 +1205,7 @@ class Api {
       {},
       headers,
       queryParameters,
+      skip401Callback,
     );
   }
 }
