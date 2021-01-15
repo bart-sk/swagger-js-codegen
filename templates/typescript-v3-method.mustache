@@ -45,7 +45,7 @@
         {{/parameters}}
         }
     {{/hasExtraHeader}}  
-    skip401Callback = false,
+    checkFor401 = true,
 ): Promise<{{#successResponses}} {{> type}} {{^last}} | {{/last}} {{/successResponses}}{{^successResponses}}void{{/successResponses}}>
 {
     let path = '{{&path}}';
@@ -117,6 +117,6 @@
         {{#hasBody}}{{#isFormMethod}}form{{/isFormMethod}}{{^isFormMethod}}body{{/isFormMethod}}{{/hasBody}}{{^hasBody}}{}{{/hasBody}},
         headers,
         queryParameters,
-        skip401Callback,
+        checkFor401,
     );
 }
