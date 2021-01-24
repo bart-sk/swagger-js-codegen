@@ -7,11 +7,11 @@
 <%! if its body parameter, then we don't want to generate only readOnly properties (so they don't get send to API)%>
   <%#isBodyParameter%>
     <%^readOnly%>
-      <%name%><%#optional%>?<%/optional%>: <%>type%>;
+      <%name%><%#optional%>?<%/optional%>: <%>type%><%#nullable%> | null<%/nullable%>;
     <%/readOnly%>
   <%/isBodyParameter%>
   <%^isBodyParameter%>
-    <%name%><%#optional%>?<%/optional%>: <%>type%>;
+    <%name%><%#optional%>?<%/optional%>: <%>type%><%#nullable%> | null<%/nullable%>;
   <%/isBodyParameter%>
 <%/properties%>
 }<%/isObject%><%!
