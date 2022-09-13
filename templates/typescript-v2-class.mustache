@@ -41,6 +41,9 @@ class {{&className}} {
         {{#isSecureApiKey}}
             protected apiKey: string = '';
         {{/isSecureApiKey}}
+        {{#isSecureHeaders}}
+            protected headers: {name: string, value: string}[] = [];
+        {{/isSecureHeaders}}
     {{/isSecure}}
 
     serializeQueryParams(parameters: QueryParameters) {
@@ -83,6 +86,12 @@ class {{&className}} {
             }
         {{/isSecureApiKey}}
 
+        {{#isSecureHeaders}}
+            public setHeaders(headers: {name: string, value: string}[]) {
+            this.headers = headers;
+            }
+        {{/isSecureHeaders}}
+
     protected appendAuthHeaders(headerParams: Headers) {
       const headers = new Headers(headerParams);
     {{#isSecureToken}}
@@ -117,6 +126,12 @@ class {{&className}} {
 
         if(headers.get('Content-Type') === 'multipart/form-data') {
             headers.delete('Content-Type');
+        }
+
+        if (this.headers.length > 0) {
+            this.headers.forEach(h => {
+                headers.append(h.name, h.value);
+            });
         }
 
         const response = await fetch(urlWithParams, { method, headers, body });
