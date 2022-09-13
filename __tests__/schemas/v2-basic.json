@@ -13,9 +13,6 @@
         "scope1": "Scope 1 description",
         "scope2": "Scope 2 description"
       }
-    },
-    "headers": {
-      "type": "headers"
     }
   },
   "paths": {

@@ -455,9 +455,6 @@
             }
           }
         }
-      },
-      "headers": {
-        "type": "headers"
       }
     }
   }
