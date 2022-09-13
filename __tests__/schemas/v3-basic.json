@@ -457,10 +457,7 @@
         }
       },
       "headers": {
-        "type": {
-          "name": "string",
-          "value": "string"
-        }
+        "type": "headers"
       }
     }
   }
