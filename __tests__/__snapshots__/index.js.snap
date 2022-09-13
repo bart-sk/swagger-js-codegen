@@ -176,6 +176,15 @@ class Api {
   }
 
   /**
+  * Set Headers
+  * @method
+  * @param {{name: string, value: string}[]} headers - array of headers
+  */
+  setHeaders(headers) {
+    this.headers = headers;
+  }
+
+  /**
    * Set Auth headers
    * @method
    * @param {object} headerParams - headers object
@@ -591,6 +600,15 @@ class Api {
    */
   setToken(token) {
     this.token = token;
+  }
+
+  /**
+  * Set Headers
+  * @method
+  * @param {{name: string, value: string}[]} headers - array of headers
+  */
+  setHeaders(headers) {
+    this.headers = headers;
   }
 
   /**
