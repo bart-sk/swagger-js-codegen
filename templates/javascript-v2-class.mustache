@@ -146,6 +146,15 @@ class {{&className}} {
     this.baseUrl = baseUrl;
   }
 
+  /**
+  * Set Headers
+  * @method
+  * @param {{name: string, value: string}[]} headers - array of headers
+  */
+  setHeaders(headers) {
+    this.headers = headers;
+  }
+
   set onResponseUnauthorized(callback) {
     this._onResponseUnauthorized = callback;
   }
@@ -171,16 +180,6 @@ class {{&className}} {
       }
 
     {{/isSecureToken}}
-    {{#isSecureHeaders}}
-      /**
-      * Set Headers
-      * @method
-      * @param {{name: string, value: string}[]} headers - array of headers
-      */
-      setHeaders(headers) {
-        this.headers = headers;
-      }
-    {{/isSecureHeaders}}
     /**
     * Set Auth headers
     * @method

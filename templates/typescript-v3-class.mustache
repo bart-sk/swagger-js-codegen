@@ -35,6 +35,7 @@ class ApiError {
 class {{&className}} {
 
     protected baseUrl: string = "{{&domain}}";
+    protected headers: {name: string, value: string}[] = [];
     {{#isSecure}}
         {{#isSecureToken}}
     protected token: string = '';
@@ -42,9 +43,6 @@ class {{&className}} {
         {{#isSecureApiKey}}
             protected apiKey: string | null = null;
         {{/isSecureApiKey}}
-        {{#isSecureHeaders}}
-            protected headers: {name: string, value: string}[] = [];
-        {{/isSecureHeaders}}
     {{/isSecure}}
 
     serializeQueryParams(parameters: QueryParameters) {
@@ -74,6 +72,10 @@ class {{&className}} {
         this.baseUrl = baseUrl;
     }
 
+    public setHeaders(headers: {name: string, value: string}[]) {
+        this.headers = headers;
+    }
+
     {{#isSecure}}
         {{#isSecureToken}}
     public setToken(token: string) {
@@ -86,11 +88,6 @@ class {{&className}} {
             this.apiKey = apiKey;
             }
         {{/isSecureApiKey}}
-        {{#isSecureHeaders}}
-            public setHeaders(headers: {name: string, value: string}[]) {
-            this.headers = headers;
-            }
-        {{/isSecureHeaders}}
 
     protected appendAuthHeaders(headerParams: Headers) {
       const headers = new Headers(headerParams);
