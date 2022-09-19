@@ -35,6 +35,7 @@ class ApiError {
 class {{&className}} {
 
     protected baseUrl: string = "{{&domain}}";
+    protected headers: {name: string, value: string}[] = [];
     {{#isSecure}}
         {{#isSecureToken}}
     protected token: string = '';
@@ -69,6 +70,10 @@ class {{&className}} {
 
     public setBaseUrl(baseUrl: string) {
         this.baseUrl = baseUrl;
+    }
+
+    public setHeaders(headers: {name: string, value: string}[]) {
+        this.headers = headers;
     }
 
     {{#isSecure}}
@@ -118,6 +123,12 @@ class {{&className}} {
 
         if(headers.get('Content-Type') === 'multipart/form-data') {
             headers.delete('Content-Type');
+        }
+
+        if (this.headers.length > 0) {
+            this.headers.forEach(h => {
+                headers.append(h.name, h.value);
+            });
         }
 
         const response = await fetch(urlWithParams, { method, headers, body });

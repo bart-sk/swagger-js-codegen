@@ -6,6 +6,7 @@ class {{&className}} {
   constructor() {
     this.baseUrl = null;
     this.token = null;
+    this.headers = [];
   }
 
   serializeQueryParams(parameters) {
@@ -87,6 +88,12 @@ class {{&className}} {
       }
     }
 
+    if (this.headers.length > 0) {
+        this.headers.forEach(h => {
+            headers.append(h.name, h.value);
+        });
+    }
+
     return fetch(urlWithParams, {
       method,
       headers,
@@ -137,6 +144,15 @@ class {{&className}} {
   */
   setBaseUrl(baseUrl) {
     this.baseUrl = baseUrl;
+  }
+
+  /**
+  * Set Headers
+  * @method
+  * @param {{name: string, value: string}[]} headers - array of headers
+  */
+  setHeaders(headers) {
+    this.headers = headers;
   }
 
   set onResponseUnauthorized(callback) {
