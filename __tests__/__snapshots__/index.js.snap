@@ -8,6 +8,7 @@ class Api {
   constructor() {
     this.baseUrl = null;
     this.token = null;
+    this.headers = [];
   }
 
   serializeQueryParams(parameters) {
@@ -101,6 +102,12 @@ class Api {
       }
     }
 
+    if (this.headers.length > 0) {
+      this.headers.forEach((h) => {
+        headers.append(h.name, h.value);
+      });
+    }
+
     return fetch(urlWithParams, {
       method,
       headers,
@@ -153,6 +160,15 @@ class Api {
     this.baseUrl = baseUrl;
   }
 
+  /**
+   * Set Headers
+   * @method
+   * @param headers - array of headers
+   */
+  setHeaders(headers) {
+    this.headers = headers;
+  }
+
   set onResponseUnauthorized(callback) {
     this._onResponseUnauthorized = callback;
   }
@@ -173,15 +189,6 @@ class Api {
    */
   setToken(token) {
     this.token = token;
-  }
-
-  /**
-  * Set Headers
-  * @method
-  * @param {{name: string, value: string}[]} headers - array of headers
-  */
-  setHeaders(headers) {
-    this.headers = headers;
   }
 
   /**
@@ -435,6 +442,7 @@ class Api {
   constructor() {
     this.baseUrl = null;
     this.token = null;
+    this.headers = [];
   }
 
   serializeQueryParams(parameters) {
@@ -528,6 +536,12 @@ class Api {
       }
     }
 
+    if (this.headers.length > 0) {
+      this.headers.forEach((h) => {
+        headers.append(h.name, h.value);
+      });
+    }
+
     return fetch(urlWithParams, {
       method,
       headers,
@@ -580,6 +594,15 @@ class Api {
     this.baseUrl = baseUrl;
   }
 
+  /**
+   * Set Headers
+   * @method
+   * @param headers - array of headers
+   */
+  setHeaders(headers) {
+    this.headers = headers;
+  }
+
   set onResponseUnauthorized(callback) {
     this._onResponseUnauthorized = callback;
   }
@@ -600,15 +623,6 @@ class Api {
    */
   setToken(token) {
     this.token = token;
-  }
-
-  /**
-  * Set Headers
-  * @method
-  * @param {{name: string, value: string}[]} headers - array of headers
-  */
-  setHeaders(headers) {
-    this.headers = headers;
   }
 
   /**
@@ -881,6 +895,7 @@ class ApiError {
  */
 class Api {
   protected baseUrl: string = '';
+  protected headers: { name: string; value: string }[] = [];
   protected token: string = '';
 
   serializeQueryParams(parameters: QueryParameters) {
@@ -911,6 +926,10 @@ class Api {
 
   public setBaseUrl(baseUrl: string) {
     this.baseUrl = baseUrl;
+  }
+
+  public setHeaders(headers: { name: string; value: string }[]) {
+    this.headers = headers;
   }
 
   public setToken(token: string) {
@@ -956,6 +975,12 @@ class Api {
 
     if (headers.get('Content-Type') === 'multipart/form-data') {
       headers.delete('Content-Type');
+    }
+
+    if (this.headers.length > 0) {
+      this.headers.forEach((h) => {
+        headers.append(h.name, h.value);
+      });
     }
 
     const response = await fetch(urlWithParams, { method, headers, body });
@@ -1173,9 +1198,7 @@ class Api {
    * @method
    * @name Api#endpointWithAllOf
    */
-  endpointWithAllOf(
-    parameters: {} = {},
-  ): Promise<
+  endpointWithAllOf(parameters: {} = {}): Promise<
     Array<{
       _id: string;
 
@@ -1244,6 +1267,7 @@ class ApiError {
  */
 class Api {
   protected baseUrl: string = '';
+  protected headers: { name: string; value: string }[] = [];
   protected token: string = '';
 
   serializeQueryParams(parameters: QueryParameters) {
@@ -1274,6 +1298,10 @@ class Api {
 
   public setBaseUrl(baseUrl: string) {
     this.baseUrl = baseUrl;
+  }
+
+  public setHeaders(headers: { name: string; value: string }[]) {
+    this.headers = headers;
   }
 
   public setToken(token: string) {
@@ -1319,6 +1347,12 @@ class Api {
 
     if (headers.get('Content-Type') === 'multipart/form-data') {
       headers.delete('Content-Type');
+    }
+
+    if (this.headers.length > 0) {
+      this.headers.forEach((h) => {
+        headers.append(h.name, h.value);
+      });
     }
 
     const response = await fetch(urlWithParams, { method, headers, body });
