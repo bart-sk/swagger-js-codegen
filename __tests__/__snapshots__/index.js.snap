@@ -131,12 +131,8 @@ class Api {
             (response.headers && response.headers.get('Content-Type')) || '';
           if (responseContentType.includes('application/json')) {
             return response.json();
-          } else if (responseContentType.includes('application/pdf')) {
-            return response.blob();
-          } else if (responseContentType.includes('text/plain')) {
-            return response.text();
           }
-          return {};
+          return response;
         } else {
           let error = new Error(response.statusText);
           error.response = response;
@@ -565,12 +561,8 @@ class Api {
             (response.headers && response.headers.get('Content-Type')) || '';
           if (responseContentType.includes('application/json')) {
             return response.json();
-          } else if (responseContentType.includes('application/pdf')) {
-            return response.blob();
-          } else if (responseContentType.includes('text/plain')) {
-            return response.text();
           }
-          return {};
+          return response;
         } else {
           let error = new Error(response.statusText);
           error.response = response;
@@ -989,12 +981,8 @@ class Api {
         (response.headers && response.headers.get('Content-Type')) || '';
       if (responseContentType.includes('application/json')) {
         return response.json();
-      } else if (responseContentType.includes('application/pdf')) {
-        return response.blob();
-      } else if (responseContentType.includes('text/plain')) {
-        return response.text();
       }
-      return {};
+      return response;
     } else {
       const err = new ApiError(response.statusText);
       err.details = await response.json();
@@ -1361,12 +1349,8 @@ class Api {
         (response.headers && response.headers.get('Content-Type')) || '';
       if (responseContentType.includes('application/json')) {
         return response.json();
-      } else if (responseContentType.includes('application/pdf')) {
-        return response.blob();
-      } else if (responseContentType.includes('text/plain')) {
-        return response.text();
       }
-      return {};
+      return response;
     } else {
       const err = new ApiError(response.statusText);
       err.details = await response.json();
