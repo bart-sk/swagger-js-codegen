@@ -126,6 +126,8 @@ class Api {
           }
         }
 
+        if (response.status === 204) return response;
+
         if (response.ok) {
           const responseContentType =
             (response.headers && response.headers.get('Content-Type')) || '';
@@ -556,6 +558,8 @@ class Api {
           }
         }
 
+        if (response.status === 204) return response;
+
         if (response.ok) {
           const responseContentType =
             (response.headers && response.headers.get('Content-Type')) || '';
@@ -976,6 +980,9 @@ class Api {
     }
 
     const response = await fetch(urlWithParams, { method, headers, body });
+
+    if (response.status === 204) return response;
+
     if (response.ok) {
       const responseContentType =
         (response.headers && response.headers.get('Content-Type')) || '';
@@ -1344,6 +1351,9 @@ class Api {
     }
 
     const response = await fetch(urlWithParams, { method, headers, body });
+
+    if (response.status === 204) return response;
+
     if (response.ok) {
       const responseContentType =
         (response.headers && response.headers.get('Content-Type')) || '';
