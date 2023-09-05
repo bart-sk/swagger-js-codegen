@@ -112,6 +112,8 @@ class {{&className}} {
           }
         }
 
+        if (response.status === 204) return response;
+        
         if (response.ok) {
           const responseContentType =
             (response.headers && response.headers.get('Content-Type')) || '';
