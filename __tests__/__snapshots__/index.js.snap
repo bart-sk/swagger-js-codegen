@@ -1,10 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Generates JAVASCRIPT class from Open Api 3.0 spec 1`] = `
-"/* eslint-disable */
-import 'isomorphic-fetch';
+"class Api {
 
-class Api {
   constructor() {
     this.baseUrl = null;
     this.token = null;
@@ -31,27 +29,26 @@ class Api {
   paramsToObject(params) {
     let query = params.substr(1);
     let result = {};
-    query.split('&').forEach(function (part) {
-      let item = part.split('=');
-      result[item[0]] = decodeURIComponent(item[1]);
+    query.split(\\"&\\").forEach(function (part) {
+        let item = part.split(\\"=\\");
+        result[item[0]] = decodeURIComponent(item[1]);
     });
     return result;
   }
 
   mergeQueryParams(parameters, queryParameters) {
     if (parameters.$queryParameters) {
-      Object.keys(parameters.$queryParameters).forEach(function (
-        parameterName,
-      ) {
-        const parameter = parameters.$queryParameters[parameterName];
-        queryParameters[parameterName] = parameter;
+      Object.keys(parameters.$queryParameters)
+          .forEach(function(parameterName) {
+            const parameter = parameters.$queryParameters[parameterName];
+            queryParameters[parameterName] = parameter;
       });
     }
     return queryParameters;
   }
 
   transformParameter(value, transformOperation = null) {
-    switch (transformOperation) {
+    switch(transformOperation) {
       case 'joinUsingPipes':
         return Array.isArray(value) ? value.join('|') : value;
       default:
@@ -59,28 +56,17 @@ class Api {
     }
   }
 
-  /**
-   * HTTP Request
-   * @method
-   * @param {string} method - http method
-   * @param {string} url - url to do request
-   * @param {object} body - body parameters / object
-   * @param {object} headers - header parameters
-   * @param {object} queryParameters - querystring parameters
-   */
-  request(
-    method,
-    url,
-    body,
-    headers,
-    queryParameters,
-    form,
-    checkFor401 = true,
-  ) {
-    const queryParams =
-      queryParameters && Object.keys(queryParameters).length
-        ? this.serializeQueryParams(queryParameters)
-        : null;
+   /**
+    * HTTP Request
+    * @method
+    * @param {string} method - http method
+    * @param {string} url - url to do request
+    * @param {object} body - body parameters / object
+    * @param {object} headers - header parameters
+    * @param {object} queryParameters - querystring parameters
+    */
+  request(method, url, body, headers, queryParameters, form, checkFor401 = true) {
+    const queryParams = queryParameters && Object.keys(queryParameters).length ? this.serializeQueryParams(queryParameters) : null ;
     const urlWithParams = url + (queryParams ? '?' + queryParams : '');
 
     // ugly hack, we need to delete Content-Type header with multipart/form-data
@@ -103,9 +89,9 @@ class Api {
     }
 
     if (this.headers.length > 0) {
-      this.headers.forEach((h) => {
-        headers.append(h.name, h.value);
-      });
+        this.headers.forEach(h => {
+            headers.append(h.name, h.value);
+        });
     }
 
     return fetch(urlWithParams, {
@@ -150,19 +136,19 @@ class Api {
   }
 
   /**
-   * Set base url
-   * @method
-   * @param {string} baseUrl
-   */
+  * Set base url
+  * @method
+  * @param {string} baseUrl
+  */
   setBaseUrl(baseUrl) {
     this.baseUrl = baseUrl;
   }
 
   /**
-   * Set Headers
-   * @method
-   * @param headers - array of headers
-   */
+  * Set Headers
+  * @method
+  * @param headers - array of headers
+  */
   setHeaders(headers) {
     this.headers = headers;
   }
@@ -172,259 +158,256 @@ class Api {
   }
 
   /**
-   * Redirects a user to a given url
-   * @method
-   * @param {string} url
-   */
+  * Redirects a user to a given url
+  * @method
+  * @param {string} url
+  */
   redirect(url) {
     window.location = url;
   }
 
-  /**
-   * Set Token
-   * @method
-   * @param {string} token - token's value
-   */
-  setToken(token) {
-    this.token = token;
-  }
+      /**
+      * Set Token
+      * @method
+      * @param {string} token - token's value
+      */
+      setToken(token) {
+        this.token = token;
+      }
 
-  /**
-   * Set Auth headers
-   * @method
-   * @param {object} headerParams - headers object
-   */
-  appendAuthHeaders(headerParams) {
-    const headers = new Headers(headerParams);
-    if (this.token) {
-      headers.append('Authorization', \`Bearer \${this.token}\`);
-    }
-    return headers;
-  }
 
-  /**
-   *
-   * @method
-   * @param {object} parameters - method options and parameters
-   * @param {} parameters.queryParam1 -
-   * @param {} parameters.queryParam2 -
-   * @param {} parameters.queryParam3 -
-   * @param {} parameters.queryParam4 -
-   * @param {} parameters.queryParam5 -
-   * @param {} pathParameter1 - Parameter 1
-   * @param {} pathParameter2 - Parameter 2
-   * @param {} pathParameter3 - Parameter 3
-   */
-  simpleGetOperation(
-    pathParameter1,
-    pathParameter2,
-    pathParameter3,
-    parameters = {},
-  ) {
-    let path =
-      '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
-    let body = {};
-    let queryParameters = {};
-    let headers = new Headers();
-    let form = {};
-
-    headers.append('Accept', 'application/json');
-
-    if (typeof parameters['queryParam1'] !== 'undefined') {
-      queryParameters['queryParam1'] = parameters['queryParam1'];
+    /**
+    * Set Auth headers
+    * @method
+    * @param {object} headerParams - headers object
+    */
+    appendAuthHeaders(headerParams) {
+      const headers = new Headers(headerParams);
+      if (this.token) {
+         headers.append('Authorization', \`Bearer \${this.token}\`);
+      }
+      return headers;
     }
 
-    queryParameters['queryParam1'] = this.transformParameter(
-      queryParameters['queryParam1'],
-    );
+    /**
+     * 
+     * @method
+     * @param {object} parameters - method options and parameters
+       * @param {} parameters.queryParam1 - 
+       * @param {} parameters.queryParam2 - 
+       * @param {} parameters.queryParam3 - 
+       * @param {} parameters.queryParam4 - 
+       * @param {} parameters.queryParam5 - 
+       * @param {} pathParameter1 - Parameter 1
+       * @param {} pathParameter2 - Parameter 2
+       * @param {} pathParameter3 - Parameter 3
+     */
+     simpleGetOperation(pathParameter1,pathParameter2,pathParameter3,parameters = {}) {
+      let path = '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
+      let body = {};
+      let queryParameters = {};
+      let headers = new Headers();
+      let form = {};
 
-    if (typeof parameters['queryParam1'] === 'undefined') {
-      throw Error('Missing required parameter: queryParam1');
-    }
+        headers.append('Accept', 'application/json');
 
-    if (typeof parameters['queryParam2'] !== 'undefined') {
-      queryParameters['queryParam2'] = parameters['queryParam2'];
-    }
 
-    queryParameters['queryParam2'] = this.transformParameter(
-      queryParameters['queryParam2'],
-    );
+            if(typeof parameters['queryParam1'] !== 'undefined'){
+              queryParameters['queryParam1'] = parameters['queryParam1'];
+            }
 
-    queryParameters['query_param_3'] = 'ACTIVE';
+            queryParameters['queryParam1'] = this.transformParameter(queryParameters['queryParam1']);
+        
+        
 
-    if (typeof parameters['queryParam3'] !== 'undefined') {
-      queryParameters['query_param_3'] = parameters['queryParam3'];
-    }
 
-    queryParameters['query_param_3'] = this.transformParameter(
-      queryParameters['query_param_3'],
-    );
+            if(typeof parameters['queryParam1'] === 'undefined') {
+              throw Error('Missing required parameter: queryParam1');
+            }
+     
 
-    queryParameters['queryParam4'] = [1, 'Two', 'Three', 4];
+            if(typeof parameters['queryParam2'] !== 'undefined'){
+              queryParameters['queryParam2'] = parameters['queryParam2'];
+            }
 
-    if (typeof parameters['queryParam4'] !== 'undefined') {
-      queryParameters['queryParam4'] = parameters['queryParam4'];
-    }
+            queryParameters['queryParam2'] = this.transformParameter(queryParameters['queryParam2']);
+        
+        
 
-    queryParameters['queryParam4'] = this.transformParameter(
-      queryParameters['queryParam4'],
-      'joinUsingPipes',
-    );
 
-    if (typeof parameters['queryParam5'] !== 'undefined') {
-      queryParameters['queryParam5'] = parameters['queryParam5'];
-    }
+     
+              queryParameters['query_param_3'] = \\"ACTIVE\\";
 
-    queryParameters['queryParam5'] = this.transformParameter(
-      queryParameters['queryParam5'],
-    );
+            if(typeof parameters['queryParam3'] !== 'undefined'){
+              queryParameters['query_param_3'] = parameters['queryParam3'];
+            }
 
-    path = path.replace('{path_parameter_1}', pathParameter1);
+            queryParameters['query_param_3'] = this.transformParameter(queryParameters['query_param_3']);
+        
+        
 
-    path = path.replace('{path_parameter_2}', pathParameter2);
 
-    path = path.replace('{path_parameter_3}', pathParameter3);
+     
+              queryParameters['queryParam4'] = [1,\\"Two\\",\\"Three\\",4];
 
-    queryParameters = this.mergeQueryParams(parameters, queryParameters);
+            if(typeof parameters['queryParam4'] !== 'undefined'){
+              queryParameters['queryParam4'] = parameters['queryParam4'];
+            }
 
-    return this.request(
-      'GET',
-      \`\${this.baseUrl}\${path}\`,
-      body,
-      headers,
-      queryParameters,
-      form,
-    );
-  }
-  /**
-   *
-   * @method
-   * @param {object} parameters - method options and parameters
-   * @param {} pathParameter1 - Parameter 1
-   * @param {} pathParameter2 - Parameter 2
-   * @param {} pathParameter3 - Parameter 3
-   * @param {} parameters.body -
-   */
-  simplePostOperation(
-    pathParameter1,
-    pathParameter2,
-    pathParameter3,
-    parameters = {},
-  ) {
-    let path =
-      '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
-    let body = {};
-    let queryParameters = {};
-    let headers = new Headers();
-    let form = {};
+            queryParameters['queryParam4'] = this.transformParameter(queryParameters['queryParam4'], 'joinUsingPipes');
+        
+        
 
-    headers = this.appendAuthHeaders(headers);
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
 
-    path = path.replace('{path_parameter_1}', pathParameter1);
+     
 
-    path = path.replace('{path_parameter_2}', pathParameter2);
+            if(typeof parameters['queryParam5'] !== 'undefined'){
+              queryParameters['queryParam5'] = parameters['queryParam5'];
+            }
 
-    path = path.replace('{path_parameter_3}', pathParameter3);
+            queryParameters['queryParam5'] = this.transformParameter(queryParameters['queryParam5']);
+        
+        
 
-    if (typeof parameters['body'] !== 'undefined') {
-      body = parameters['body'];
-    }
 
-    queryParameters = this.mergeQueryParams(parameters, queryParameters);
+     
+        
+          path = path.replace('{path_parameter_1}', pathParameter1);
+        
 
-    return this.request(
-      'POST',
-      \`\${this.baseUrl}\${path}\`,
-      body,
-      headers,
-      queryParameters,
-      form,
-    );
-  }
-  /**
-   *
-   * @method
-   * @param {object} parameters - method options and parameters
-   * @param {} parameters.body -
-   */
-  simpleUploadOperation(parameters = {}) {
-    let path = '/upload';
-    let body = {};
-    let queryParameters = {};
-    let headers = new Headers();
-    let form = {};
 
-    headers = this.appendAuthHeaders(headers);
-    headers.append('Content-Type', 'multipart/form-data');
-    headers.append('Accept', 'application/json');
+     
+        
+          path = path.replace('{path_parameter_2}', pathParameter2);
+        
 
-    if (typeof parameters['body'] !== 'undefined') {
-      form['body'] = parameters['body'];
-    }
 
-    queryParameters = this.mergeQueryParams(parameters, queryParameters);
+     
+        
+          path = path.replace('{path_parameter_3}', pathParameter3);
+        
 
-    return this.request(
-      'POST',
-      \`\${this.baseUrl}\${path}\`,
-      body,
-      headers,
-      queryParameters,
-      form,
-    );
-  }
-  /**
-   *
-   * @method
-   * @param {object} parameters - method options and parameters
-   */
-  endpointWithoutOkResponse(parameters = {}) {
-    let path = '/endpoint-without-ok-response';
-    let body = {};
-    let queryParameters = {};
-    let headers = new Headers();
-    let form = {};
 
-    headers.append('Accept', 'application/json');
+     
+      queryParameters = this.mergeQueryParams(parameters, queryParameters);
 
-    queryParameters = this.mergeQueryParams(parameters, queryParameters);
+      return this.request('GET', \`\${this.baseUrl}\${path}\`, body, headers, queryParameters, form);
+     }
+    /**
+     * 
+     * @method
+     * @param {object} parameters - method options and parameters
+       * @param {} pathParameter1 - Parameter 1
+       * @param {} pathParameter2 - Parameter 2
+       * @param {} pathParameter3 - Parameter 3
+       * @param {} parameters.body - 
+     */
+     simplePostOperation(pathParameter1,pathParameter2,pathParameter3,parameters = {}) {
+      let path = '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
+      let body = {};
+      let queryParameters = {};
+      let headers = new Headers();
+      let form = {};
 
-    return this.request(
-      'GET',
-      \`\${this.baseUrl}\${path}\`,
-      body,
-      headers,
-      queryParameters,
-      form,
-    );
-  }
-  /**
-   *
-   * @method
-   * @param {object} parameters - method options and parameters
-   */
-  endpointWithAllOf(parameters = {}) {
-    let path = '/endpoint-with-all-of';
-    let body = {};
-    let queryParameters = {};
-    let headers = new Headers();
-    let form = {};
+        headers = this.appendAuthHeaders(headers);
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
 
-    headers.append('Accept', 'application/json');
+        
+          path = path.replace('{path_parameter_1}', pathParameter1);
+        
 
-    queryParameters = this.mergeQueryParams(parameters, queryParameters);
 
-    return this.request(
-      'GET',
-      \`\${this.baseUrl}\${path}\`,
-      body,
-      headers,
-      queryParameters,
-      form,
-    );
-  }
+     
+        
+          path = path.replace('{path_parameter_2}', pathParameter2);
+        
+
+
+     
+        
+          path = path.replace('{path_parameter_3}', pathParameter3);
+        
+
+
+     
+        
+        
+          if(typeof parameters['body'] !== 'undefined'){
+            body = parameters['body'];
+          }
+
+
+     
+      queryParameters = this.mergeQueryParams(parameters, queryParameters);
+
+      return this.request('POST', \`\${this.baseUrl}\${path}\`, body, headers, queryParameters, form);
+     }
+    /**
+     * 
+     * @method
+     * @param {object} parameters - method options and parameters
+       * @param {} parameters.body - 
+     */
+     simpleUploadOperation(parameters = {}) {
+      let path = '/upload';
+      let body = {};
+      let queryParameters = {};
+      let headers = new Headers();
+      let form = {};
+
+        headers = this.appendAuthHeaders(headers);
+        headers.append('Content-Type', 'multipart/form-data');
+        headers.append('Accept', 'application/json');
+
+        
+        
+
+            if(typeof parameters['body'] !== 'undefined'){
+                form['body'] = parameters['body'];
+            }
+
+     
+      queryParameters = this.mergeQueryParams(parameters, queryParameters);
+
+      return this.request('POST', \`\${this.baseUrl}\${path}\`, body, headers, queryParameters, form);
+     }
+    /**
+     * 
+     * @method
+     * @param {object} parameters - method options and parameters
+     */
+     endpointWithoutOkResponse(parameters = {}) {
+      let path = '/endpoint-without-ok-response';
+      let body = {};
+      let queryParameters = {};
+      let headers = new Headers();
+      let form = {};
+
+        headers.append('Accept', 'application/json');
+
+      queryParameters = this.mergeQueryParams(parameters, queryParameters);
+
+      return this.request('GET', \`\${this.baseUrl}\${path}\`, body, headers, queryParameters, form);
+     }
+    /**
+     * 
+     * @method
+     * @param {object} parameters - method options and parameters
+     */
+     endpointWithAllOf(parameters = {}) {
+      let path = '/endpoint-with-all-of';
+      let body = {};
+      let queryParameters = {};
+      let headers = new Headers();
+      let form = {};
+
+        headers.append('Accept', 'application/json');
+
+      queryParameters = this.mergeQueryParams(parameters, queryParameters);
+
+      return this.request('GET', \`\${this.baseUrl}\${path}\`, body, headers, queryParameters, form);
+     }
 }
 
 export default new Api();
@@ -433,10 +416,8 @@ export { Api };
 `;
 
 exports[`Generates JAVASCRIPT class from Swagger 2 spec 1`] = `
-"/* eslint-disable */
-import 'isomorphic-fetch';
+"class Api {
 
-class Api {
   constructor() {
     this.baseUrl = null;
     this.token = null;
@@ -463,27 +444,26 @@ class Api {
   paramsToObject(params) {
     let query = params.substr(1);
     let result = {};
-    query.split('&').forEach(function (part) {
-      let item = part.split('=');
-      result[item[0]] = decodeURIComponent(item[1]);
+    query.split(\\"&\\").forEach(function (part) {
+        let item = part.split(\\"=\\");
+        result[item[0]] = decodeURIComponent(item[1]);
     });
     return result;
   }
 
   mergeQueryParams(parameters, queryParameters) {
     if (parameters.$queryParameters) {
-      Object.keys(parameters.$queryParameters).forEach(function (
-        parameterName,
-      ) {
-        const parameter = parameters.$queryParameters[parameterName];
-        queryParameters[parameterName] = parameter;
+      Object.keys(parameters.$queryParameters)
+          .forEach(function(parameterName) {
+            const parameter = parameters.$queryParameters[parameterName];
+            queryParameters[parameterName] = parameter;
       });
     }
     return queryParameters;
   }
 
   transformParameter(value, transformOperation = null) {
-    switch (transformOperation) {
+    switch(transformOperation) {
       case 'joinUsingPipes':
         return Array.isArray(value) ? value.join('|') : value;
       default:
@@ -491,28 +471,17 @@ class Api {
     }
   }
 
-  /**
-   * HTTP Request
-   * @method
-   * @param {string} method - http method
-   * @param {string} url - url to do request
-   * @param {object} body - body parameters / object
-   * @param {object} headers - header parameters
-   * @param {object} queryParameters - querystring parameters
-   */
-  request(
-    method,
-    url,
-    body,
-    headers,
-    queryParameters,
-    form,
-    checkFor401 = true,
-  ) {
-    const queryParams =
-      queryParameters && Object.keys(queryParameters).length
-        ? this.serializeQueryParams(queryParameters)
-        : null;
+   /**
+    * HTTP Request
+    * @method
+    * @param {string} method - http method
+    * @param {string} url - url to do request
+    * @param {object} body - body parameters / object
+    * @param {object} headers - header parameters
+    * @param {object} queryParameters - querystring parameters
+    */
+  request(method, url, body, headers, queryParameters, form, checkFor401 = true) {
+    const queryParams = queryParameters && Object.keys(queryParameters).length ? this.serializeQueryParams(queryParameters) : null ;
     const urlWithParams = url + (queryParams ? '?' + queryParams : '');
 
     // ugly hack, we need to delete Content-Type header with multipart/form-data
@@ -535,9 +504,9 @@ class Api {
     }
 
     if (this.headers.length > 0) {
-      this.headers.forEach((h) => {
-        headers.append(h.name, h.value);
-      });
+        this.headers.forEach(h => {
+            headers.append(h.name, h.value);
+        });
     }
 
     return fetch(urlWithParams, {
@@ -559,7 +528,7 @@ class Api {
         }
 
         if (response.status === 204) return response;
-
+        
         if (response.ok) {
           const responseContentType =
             (response.headers && response.headers.get('Content-Type')) || '';
@@ -582,19 +551,19 @@ class Api {
   }
 
   /**
-   * Set base url
-   * @method
-   * @param {string} baseUrl
-   */
+  * Set base url
+  * @method
+  * @param {string} baseUrl
+  */
   setBaseUrl(baseUrl) {
     this.baseUrl = baseUrl;
   }
 
   /**
-   * Set Headers
-   * @method
-   * @param headers - array of headers
-   */
+  * Set Headers
+  * @method
+  * @param headers - array of headers
+  */
   setHeaders(headers) {
     this.headers = headers;
   }
@@ -604,244 +573,246 @@ class Api {
   }
 
   /**
-   * Redirects a user to a given url
-   * @method
-   * @param {string} url
-   */
+  * Redirects a user to a given url
+  * @method
+  * @param {string} url
+  */
   redirect(url) {
     window.location = url;
   }
 
-  /**
-   * Set Token
-   * @method
-   * @param {string} token - token's value
-   */
-  setToken(token) {
-    this.token = token;
-  }
+      /**
+      * Set Token
+      * @method
+      * @param {string} token - token's value
+      */
+      setToken(token) {
+        this.token = token;
+      }
 
-  /**
-   * Set Auth headers
-   * @method
-   * @param {object} headerParams - headers object
-   */
-  appendAuthHeaders(headerParams) {
-    const headers = new Headers(headerParams);
-    if (this.token) {
-      headers.append('Authorization', \`Bearer \${this.token}\`);
-    }
-    return headers;
-  }
-
-  /**
-   *
-   * @method
-   * @param {object} parameters - method options and parameters
-   * @param {string} parameters.queryParam1 -
-   * @param {array} parameters.queryParam2 -
-   * @param {string} parameters.queryParam3 -
-   * @param {array} parameters.queryParam4 -
-   * @param {string} parameters.queryParam5 -
-   * @param {string} pathParameter1 -
-   * @param {string} pathParameter2 -
-   * @param {string} pathParameter3 -
-   */
-  simpleGetOperation(
-    pathParameter1,
-    pathParameter2,
-    pathParameter3,
-    parameters = {},
-  ) {
-    let path =
-      '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
-    let body = {};
-    let queryParameters = {};
-    let headers = new Headers();
-    let form = {};
-
-    headers.append('Accept', 'application/json');
-
-    if (typeof parameters['queryParam1'] !== 'undefined') {
-      queryParameters['queryParam1'] = parameters['queryParam1'];
+    /**
+    * Set Auth headers
+    * @method
+    * @param {object} headerParams - headers object
+    */
+    appendAuthHeaders(headerParams) {
+      const headers = new Headers(headerParams);
+      if (this.token) {
+         headers.append('Authorization', \`Bearer \${this.token}\`);
+      }
+      return headers;
     }
 
-    queryParameters['queryParam1'] = this.transformParameter(
-      queryParameters['queryParam1'],
-    );
+    /**
+     * 
+     * @method
+     * @param {object} parameters - method options and parameters
+       * @param {string} parameters.queryParam1 - 
+       * @param {array} parameters.queryParam2 - 
+       * @param {string} parameters.queryParam3 - 
+       * @param {array} parameters.queryParam4 - 
+       * @param {string} parameters.queryParam5 - 
+       * @param {string} pathParameter1 - 
+       * @param {string} pathParameter2 - 
+       * @param {string} pathParameter3 - 
+     */
+     simpleGetOperation(pathParameter1,pathParameter2,pathParameter3,parameters = {}) {
+      let path = '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
+      let body = {};
+      let queryParameters = {};
+      let headers = new Headers();
+      let form = {};
 
-    if (typeof parameters['queryParam1'] === 'undefined') {
-      throw Error('Missing required parameter: queryParam1');
-    }
+        headers.append('Accept', 'application/json');
 
-    if (typeof parameters['queryParam2'] !== 'undefined') {
-      queryParameters['queryParam2'] = parameters['queryParam2'];
-    }
 
-    queryParameters['queryParam2'] = this.transformParameter(
-      queryParameters['queryParam2'],
-    );
+            if(typeof parameters['queryParam1'] !== 'undefined'){
+              queryParameters['queryParam1'] = parameters['queryParam1'];
+            }
 
-    queryParameters['query_param_3'] = 'ACTIVE';
+            queryParameters['queryParam1'] = this.transformParameter(queryParameters['queryParam1']);
+        
+        
 
-    if (typeof parameters['queryParam3'] !== 'undefined') {
-      queryParameters['query_param_3'] = parameters['queryParam3'];
-    }
 
-    queryParameters['query_param_3'] = this.transformParameter(
-      queryParameters['query_param_3'],
-    );
+            if(typeof parameters['queryParam1'] === 'undefined') {
+              throw Error('Missing required parameter: queryParam1');
+            }
+     
 
-    queryParameters['queryParam4'] = [1, 'Two', 'Three', 4];
+            if(typeof parameters['queryParam2'] !== 'undefined'){
+              queryParameters['queryParam2'] = parameters['queryParam2'];
+            }
 
-    if (typeof parameters['queryParam4'] !== 'undefined') {
-      queryParameters['queryParam4'] = parameters['queryParam4'];
-    }
+            queryParameters['queryParam2'] = this.transformParameter(queryParameters['queryParam2']);
+        
+        
 
-    queryParameters['queryParam4'] = this.transformParameter(
-      queryParameters['queryParam4'],
-      'joinUsingPipes',
-    );
 
-    if (typeof parameters['queryParam5'] !== 'undefined') {
-      queryParameters['queryParam5'] = parameters['queryParam5'];
-    }
+     
+              queryParameters['query_param_3'] = \\"ACTIVE\\";
 
-    queryParameters['queryParam5'] = this.transformParameter(
-      queryParameters['queryParam5'],
-    );
+            if(typeof parameters['queryParam3'] !== 'undefined'){
+              queryParameters['query_param_3'] = parameters['queryParam3'];
+            }
 
-    path = path.replace('{path_parameter_1}', pathParameter1);
+            queryParameters['query_param_3'] = this.transformParameter(queryParameters['query_param_3']);
+        
+        
 
-    path = path.replace('{path_parameter_2}', pathParameter2);
 
-    path = path.replace('{path_parameter_3}', pathParameter3);
+     
+              queryParameters['queryParam4'] = [1,\\"Two\\",\\"Three\\",4];
 
-    queryParameters = this.mergeQueryParams(parameters, queryParameters);
+            if(typeof parameters['queryParam4'] !== 'undefined'){
+              queryParameters['queryParam4'] = parameters['queryParam4'];
+            }
 
-    return this.request(
-      'GET',
-      \`\${this.baseUrl}\${path}\`,
-      body,
-      headers,
-      queryParameters,
-      form,
-    );
-  }
+            queryParameters['queryParam4'] = this.transformParameter(queryParameters['queryParam4'], 'joinUsingPipes');
+        
+        
 
-  /**
-   *
-   * @method
-   * @param {object} parameters - method options and parameters
-   * @param {} parameters.data -
-   * @param {string} pathParameter1 -
-   * @param {string} pathParameter2 -
-   * @param {string} pathParameter3 -
-   */
-  simplePostOperation(
-    pathParameter1,
-    pathParameter2,
-    pathParameter3,
-    parameters = {},
-  ) {
-    let path =
-      '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
-    let body = {};
-    let queryParameters = {};
-    let headers = new Headers();
-    let form = {};
 
-    headers = this.appendAuthHeaders(headers);
-    headers.append('Accept', 'application/json');
-    headers.append('Content-Type', 'application/json');
+     
 
-    if (typeof parameters['data'] !== 'undefined') {
-      body = parameters['data'];
-    }
+            if(typeof parameters['queryParam5'] !== 'undefined'){
+              queryParameters['queryParam5'] = parameters['queryParam5'];
+            }
 
-    if (typeof parameters['data'] === 'undefined') {
-      throw Error('Missing required parameter: data');
-    }
+            queryParameters['queryParam5'] = this.transformParameter(queryParameters['queryParam5']);
+        
+        
 
-    path = path.replace('{path_parameter_1}', pathParameter1);
 
-    path = path.replace('{path_parameter_2}', pathParameter2);
+     
+        
+          path = path.replace('{path_parameter_1}', pathParameter1);
+        
 
-    path = path.replace('{path_parameter_3}', pathParameter3);
 
-    queryParameters = this.mergeQueryParams(parameters, queryParameters);
+     
+        
+          path = path.replace('{path_parameter_2}', pathParameter2);
+        
 
-    return this.request(
-      'POST',
-      \`\${this.baseUrl}\${path}\`,
-      body,
-      headers,
-      queryParameters,
-      form,
-    );
-  }
 
-  /**
-   *
-   * @method
-   * @param {object} parameters - method options and parameters
-   */
-  endpointWithoutOkResponse(parameters = {}) {
-    let path = '/endpoint-without-ok-response';
-    let body = {};
-    let queryParameters = {};
-    let headers = new Headers();
-    let form = {};
+     
+        
+          path = path.replace('{path_parameter_3}', pathParameter3);
+        
 
-    headers.append('Accept', 'application/json');
 
-    queryParameters = this.mergeQueryParams(parameters, queryParameters);
+     
+      queryParameters = this.mergeQueryParams(parameters, queryParameters);
 
-    return this.request(
-      'GET',
-      \`\${this.baseUrl}\${path}\`,
-      body,
-      headers,
-      queryParameters,
-      form,
-    );
-  }
+      return this.request('GET', \`\${this.baseUrl}\${path}\`, body, headers, queryParameters, form);
+     }
 
-  /**
-   * Upload new document
-   * @method
-   * @param {object} parameters - method options and parameters
-   * @param {file} parameters.upload - File to be uploaded
-   */
-  simpleUpload(parameters = {}) {
-    let path = '/upload';
-    let body = {};
-    let queryParameters = {};
-    let headers = new Headers();
-    let form = {};
+    /**
+     * 
+     * @method
+     * @param {object} parameters - method options and parameters
+       * @param {} parameters.data - 
+       * @param {string} pathParameter1 - 
+       * @param {string} pathParameter2 - 
+       * @param {string} pathParameter3 - 
+     */
+     simplePostOperation(pathParameter1,pathParameter2,pathParameter3,parameters = {}) {
+      let path = '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
+      let body = {};
+      let queryParameters = {};
+      let headers = new Headers();
+      let form = {};
 
-    headers = this.appendAuthHeaders(headers);
-    headers.append('Content-Type', 'multipart/form-data');
+        headers = this.appendAuthHeaders(headers);
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json');
 
-    if (typeof parameters['upload'] !== 'undefined') {
-      form['upload'] = parameters['upload'];
-    }
+        
+        
+          if(typeof parameters['data'] !== 'undefined'){
+            body = parameters['data'];
+          }
 
-    if (typeof parameters['upload'] === 'undefined') {
-      throw Error('Missing required parameter: upload');
-    }
 
-    queryParameters = this.mergeQueryParams(parameters, queryParameters);
+            if(typeof parameters['data'] === 'undefined') {
+              throw Error('Missing required parameter: data');
+            }
+     
+        
+          path = path.replace('{path_parameter_1}', pathParameter1);
+        
 
-    return this.request(
-      'POST',
-      \`\${this.baseUrl}\${path}\`,
-      body,
-      headers,
-      queryParameters,
-      form,
-    );
-  }
+
+     
+        
+          path = path.replace('{path_parameter_2}', pathParameter2);
+        
+
+
+     
+        
+          path = path.replace('{path_parameter_3}', pathParameter3);
+        
+
+
+     
+      queryParameters = this.mergeQueryParams(parameters, queryParameters);
+
+      return this.request('POST', \`\${this.baseUrl}\${path}\`, body, headers, queryParameters, form);
+     }
+
+    /**
+     * 
+     * @method
+     * @param {object} parameters - method options and parameters
+     */
+     endpointWithoutOkResponse(parameters = {}) {
+      let path = '/endpoint-without-ok-response';
+      let body = {};
+      let queryParameters = {};
+      let headers = new Headers();
+      let form = {};
+
+        headers.append('Accept', 'application/json');
+
+      queryParameters = this.mergeQueryParams(parameters, queryParameters);
+
+      return this.request('GET', \`\${this.baseUrl}\${path}\`, body, headers, queryParameters, form);
+     }
+
+    /**
+     * Upload new document
+     * @method
+     * @param {object} parameters - method options and parameters
+       * @param {file} parameters.upload - File to be uploaded
+     */
+     simpleUpload(parameters = {}) {
+      let path = '/upload';
+      let body = {};
+      let queryParameters = {};
+      let headers = new Headers();
+      let form = {};
+
+        headers = this.appendAuthHeaders(headers);
+        headers.append('Content-Type', 'multipart/form-data');
+
+        
+        
+
+            if(typeof parameters['upload'] !== 'undefined'){
+                form['upload'] = parameters['upload'];
+            }
+
+            if(typeof parameters['upload'] === 'undefined') {
+              throw Error('Missing required parameter: upload');
+            }
+     
+      queryParameters = this.mergeQueryParams(parameters, queryParameters);
+
+      return this.request('POST', \`\${this.baseUrl}\${path}\`, body, headers, queryParameters, form);
+     }
+
 }
 
 export default new Api();
@@ -850,30 +821,20 @@ export { Api };
 `;
 
 exports[`Generates TYPESCRIPT class from Open Api 3.0 spec 1`] = `
-"/* tslint:disable */
-/* eslint:disable */
-import 'isomorphic-fetch';
+"export type ThenArg<T> = T extends Promise<infer U>
+    ? U
+    : T extends (...args: any[]) => Promise<infer U>
+    ? U
+    : T;
 
-export type ThenArg<T> = T extends Promise<infer U>
-  ? U
-  : T extends (...args: any[]) => Promise<infer U>
-  ? U
-  : T;
 
-type QueryParameters = {
-  [key: string]:
-    | string
-    | number
-    | string[]
-    | number[]
-    | boolean
-    | boolean[]
-    | undefined;
-};
+type QueryParameters = { [key: string]: string | number | string[] | number[] | boolean | boolean[] | undefined };
 
 export type Something = {
-  _id?: string;
-};
+    _id?: string
+;
+}
+;
 
 class ApiError {
   public message: string;
@@ -885,335 +846,414 @@ class ApiError {
 }
 
 /**
- *
+ * 
  * @class Api
  * @param {(string)} [domainOrOptions] - The project domain.
  */
 class Api {
-  protected baseUrl: string = '';
-  protected headers: { name: string; value: string }[] = [];
-  protected token: string = '';
 
-  serializeQueryParams(parameters: QueryParameters) {
-    return Object.keys(parameters)
-      .reduce((acc: string[], p) => {
-        const param = parameters[p];
-        if (typeof param === 'undefined' || param === '') {
-          return acc;
+    protected baseUrl: string = \\"\\";
+    protected headers: {name: string, value: string}[] = [];
+    protected token: string = '';
+
+    serializeQueryParams(parameters: QueryParameters) {
+        return Object.keys(parameters)
+            .reduce((acc: string[], p) => {
+                const param = parameters[p];
+                if(typeof param === 'undefined' || param === '') {
+                    return acc;
+                }
+                return [...acc, \`\${encodeURIComponent(p)}=\${encodeURIComponent(
+                String(parameters[p]),
+                )}\`];
+            }, [])
+            .join('&');
+    }
+
+    protected transformParameter(value: any, transformOperation?: string) {
+        switch(transformOperation) {
+            case 'joinUsingPipes':
+                return Array.isArray(value) ? value.join('|') : value;
+            default:
+                return value;
         }
-        return [
-          ...acc,
-          \`\${encodeURIComponent(p)}=\${encodeURIComponent(
-            String(parameters[p]),
-          )}\`,
-        ];
-      }, [])
-      .join('&');
-  }
-
-  protected transformParameter(value: any, transformOperation?: string) {
-    switch (transformOperation) {
-      case 'joinUsingPipes':
-        return Array.isArray(value) ? value.join('|') : value;
-      default:
-        return value;
     }
-  }
 
-  public setBaseUrl(baseUrl: string) {
-    this.baseUrl = baseUrl;
-  }
-
-  public setHeaders(headers: { name: string; value: string }[]) {
-    this.headers = headers;
-  }
-
-  public setToken(token: string) {
-    this.token = token;
-  }
-
-  protected appendAuthHeaders(headerParams: Headers) {
-    const headers = new Headers(headerParams);
-    if (this.token) {
-      headers.append('Authorization', \`Bearer \${this.token}\`);
+    public setBaseUrl(baseUrl: string) {
+        this.baseUrl = baseUrl;
     }
-    return headers;
-  }
 
-  private async request(
-    method: string,
-    url: string,
-    body: any,
-    headers: Headers = new Headers(),
-    queryParameters: QueryParameters = {},
-  ) {
-    const queryParams =
-      queryParameters && Object.keys(queryParameters).length
-        ? this.serializeQueryParams(queryParameters)
-        : null;
-    const urlWithParams = url + (queryParams ? '?' + queryParams : '');
+    public setHeaders(headers: {name: string, value: string}[]) {
+        this.headers = headers;
+    }
 
-    if (headers.get('Content-Type') === 'multipart/form-data') {
-      const form = new FormData();
-      for (let k in body) {
-        form.append(k, body[k]);
+    public setToken(token: string) {
+        this.token = token;
+    }
+
+
+    protected appendAuthHeaders(headerParams: Headers) {
+      const headers = new Headers(headerParams);
+      if (this.token) {
+        headers.append('Authorization', \`Bearer \${this.token}\`);
       }
-      body = form;
-    } else if (
-      headers.get('Content-Type') === 'application/json' &&
-      body &&
-      Object.keys(body).length > 0
-    ) {
-      body = JSON.stringify(body);
-    } else {
-      body = undefined;
+      return headers;
     }
 
-    if (headers.get('Content-Type') === 'multipart/form-data') {
-      headers.delete('Content-Type');
+    private async request(method: string, url: string, body: any, headers: Headers = new Headers(), queryParameters: QueryParameters = {}) {
+        const queryParams = queryParameters && Object.keys(queryParameters).length ? this.serializeQueryParams(queryParameters) : null ;
+        const urlWithParams = url + (queryParams ? '?' + queryParams : '');
+
+        if(headers.get('Content-Type') === 'multipart/form-data') {
+            const form = new FormData();
+            for (let k in body) {
+                form.append(k, body[k]);
+            }
+            body = form;
+        } else if(headers.get('Content-Type') === 'application/json' && body && Object.keys(body).length > 0) {
+            body = JSON.stringify(body);
+        } else {
+            body = undefined;
+        }
+
+        if(headers.get('Content-Type') === 'multipart/form-data') {
+            headers.delete('Content-Type');
+        }
+
+        if (this.headers.length > 0) {
+            this.headers.forEach(h => {
+                headers.append(h.name, h.value);
+            });
+        }
+
+        const response = await fetch(urlWithParams, { method, headers, body });
+
+        if (response.status === 204) return response;
+        
+        if(response.ok) {
+            const responseContentType =
+                (response.headers && response.headers.get('Content-Type')) || '';
+            if (responseContentType.includes('application/json')) {
+                return response.json();
+            }
+            return response;
+        } else {
+            const err = new ApiError(response.statusText);
+            err.details = await response.json();
+            throw err;
+        }
     }
 
-    if (this.headers.length > 0) {
-      this.headers.forEach((h) => {
-        headers.append(h.name, h.value);
-      });
-    }
-
-    const response = await fetch(urlWithParams, { method, headers, body });
-
-    if (response.status === 204) return response;
-
-    if (response.ok) {
-      const responseContentType =
-        (response.headers && response.headers.get('Content-Type')) || '';
-      if (responseContentType.includes('application/json')) {
-        return response.json();
-      }
-      return response;
-    } else {
-      const err = new ApiError(response.statusText);
-      err.details = await response.json();
-      throw err;
-    }
-  }
-
-  /**
-   *
-   * @method
-   * @name Api#simpleGetOperation
-   */
-  simpleGetOperation(
-    pathParameter1: string,
-    pathParameter2: string,
-    pathParameter3: string,
-    parameters: {
-      queryParam1: string;
-      queryParam2?: Array<string>;
-      queryParam3?: 'ACTIVE' | 'INACTIVE';
-      queryParam4?: Array<string>;
-      queryParam5?: string;
-    },
-  ): Promise<{
+    /**
+    * 
+    * @method
+    * @name Api#simpleGetOperation
+    */
+    simpleGetOperation(
+            
+            
+            
+            
+            
+            pathParameter1: string
+,
+            pathParameter2: string
+,
+            pathParameter3: string
+,
+        parameters: {
+                        'queryParam1': string
+,
+                        'queryParam2'?: Array<string
+>
+,
+                        'queryParam3'?: \\"ACTIVE\\" | \\"INACTIVE\\"
+,
+                        'queryParam4'?: Array<string
+>
+,
+                        'queryParam5'?: string
+,
+        } ,
+    ): Promise< {
     items?: Array<{
-      _id?: string;
+    _id?: string
+;
 
-      date?: string;
+    date?: string
+;
 
-      name?: string;
+    name?: string
+;
 
-      ttl?: number;
+    ttl?: number
+;
 
-      status_log?: Array<{
-        ips?: Array<string | null> | null;
-      }>;
-    }>;
-  }> {
-    let path =
-      '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
-    let headers: Headers = new Headers();
-    let queryParameters: QueryParameters = {};
+    status_log?: Array<{
+    ips?: Array<string|null>|null
+;
+}
+>
+;
+}
+>
+;
+}
+  >
+    {
+        let path = '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
+        let headers: Headers = new Headers();
+        let queryParameters: QueryParameters = {};
 
-    headers.append('Accept', 'application/json');
+        headers.append('Accept', 'application/json');
 
-    if (typeof parameters['queryParam1'] !== 'undefined') {
-      queryParameters['queryParam1'] = parameters['queryParam1'];
+
+            if(typeof parameters['queryParam1'] !== 'undefined'){
+                queryParameters['queryParam1'] = parameters['queryParam1'];
+            }
+
+            queryParameters['queryParam1'] = this.transformParameter(queryParameters['queryParam1']);
+
+
+
+                if(typeof parameters['queryParam1'] === 'undefined') {
+                    throw new Error('Missing required parameter: queryParam1');
+                }
+
+
+            if(typeof parameters['queryParam2'] !== 'undefined'){
+                queryParameters['queryParam2'] = parameters['queryParam2'];
+            }
+
+            queryParameters['queryParam2'] = this.transformParameter(queryParameters['queryParam2']);
+
+
+
+
+              queryParameters['query_param_3'] = \\"ACTIVE\\";
+
+            if(typeof parameters['queryParam3'] !== 'undefined'){
+                queryParameters['query_param_3'] = parameters['queryParam3'];
+            }
+
+            queryParameters['query_param_3'] = this.transformParameter(queryParameters['query_param_3']);
+
+
+
+
+              queryParameters['queryParam4'] = [1,\\"Two\\",\\"Three\\",4];
+
+            if(typeof parameters['queryParam4'] !== 'undefined'){
+                queryParameters['queryParam4'] = parameters['queryParam4'];
+            }
+
+            queryParameters['queryParam4'] = this.transformParameter(queryParameters['queryParam4'], 'joinUsingPipes');
+
+
+
+
+
+            if(typeof parameters['queryParam5'] !== 'undefined'){
+                queryParameters['queryParam5'] = parameters['queryParam5'];
+            }
+
+            queryParameters['queryParam5'] = this.transformParameter(queryParameters['queryParam5']);
+
+
+
+
+
+            path = path.replace('{path_parameter_1}', pathParameter1.toString());
+
+
+
+
+            path = path.replace('{path_parameter_2}', pathParameter2.toString());
+
+
+
+
+            path = path.replace('{path_parameter_3}', pathParameter3.toString());
+
+
+
+
+        return this.request(
+            'GET',
+            \`\${this.baseUrl}\${path}\`,
+            {},
+            headers,
+            queryParameters
+        );
     }
+    /**
+    * 
+    * @method
+    * @name Api#simplePostOperation
+    */
+    simplePostOperation(
+            pathParameter1: string
+,
+            pathParameter2: string
+,
+            pathParameter3: string
+,
+            
+        parameters: {
+        }  = {},
+        body: 
+                                                {
 
-    queryParameters['queryParam1'] = this.transformParameter(
-      queryParameters['queryParam1'],
-    );
+                              date?: string
+;
 
-    if (typeof parameters['queryParam1'] === 'undefined') {
-      throw new Error('Missing required parameter: queryParam1');
+
+                              ttl?: number
+;
+
+                              ips?: Array<string|null>|null
+;
+                        }
+,
+    ): Promise< Something
+  >
+    {
+        let path = '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
+        let headers: Headers = new Headers();
+        let queryParameters: QueryParameters = {};
+
+        headers = this.appendAuthHeaders(headers);
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+
+
+            path = path.replace('{path_parameter_1}', pathParameter1.toString());
+
+
+
+
+            path = path.replace('{path_parameter_2}', pathParameter2.toString());
+
+
+
+
+            path = path.replace('{path_parameter_3}', pathParameter3.toString());
+
+
+
+
+
+
+
+
+        return this.request(
+            'POST',
+            \`\${this.baseUrl}\${path}\`,
+            body,
+            headers,
+            queryParameters
+        );
     }
+    /**
+    * 
+    * @method
+    * @name Api#simpleUploadOperation
+    */
+    simpleUploadOperation(
+            
+        parameters: {
+        }  = {},
+        form: 
+                                                {
+                            upload: File
+;
+                        }
+,
+    ): Promise< {
+    _id?: string
+;
+}
+  >
+    {
+        let path = '/upload';
+        let headers: Headers = new Headers();
+        let queryParameters: QueryParameters = {};
 
-    if (typeof parameters['queryParam2'] !== 'undefined') {
-      queryParameters['queryParam2'] = parameters['queryParam2'];
+        headers = this.appendAuthHeaders(headers);
+        headers.append('Content-Type', 'multipart/form-data');
+        headers.append('Accept', 'application/json');
+
+
+
+
+
+
+        return this.request(
+            'POST',
+            \`\${this.baseUrl}\${path}\`,
+            form,
+            headers,
+            queryParameters
+        );
     }
+    /**
+    * 
+    * @method
+    * @name Api#endpointWithoutOkResponse
+    */
+    endpointWithoutOkResponse(
+        parameters: {
+        }  = {},
+    ): Promise<void>
+    {
+        let path = '/endpoint-without-ok-response';
+        let headers: Headers = new Headers();
+        let queryParameters: QueryParameters = {};
 
-    queryParameters['queryParam2'] = this.transformParameter(
-      queryParameters['queryParam2'],
-    );
+        headers.append('Accept', 'application/json');
 
-    queryParameters['query_param_3'] = 'ACTIVE';
 
-    if (typeof parameters['queryParam3'] !== 'undefined') {
-      queryParameters['query_param_3'] = parameters['queryParam3'];
+        return this.request(
+            'GET',
+            \`\${this.baseUrl}\${path}\`,
+            {},
+            headers,
+            queryParameters
+        );
     }
+    /**
+    * 
+    * @method
+    * @name Api#endpointWithAllOf
+    */
+    endpointWithAllOf(
+        parameters: {
+        }  = {},
+    ): Promise< Array<{
+    _id: string
+;
 
-    queryParameters['query_param_3'] = this.transformParameter(
-      queryParameters['query_param_3'],
-    );
+    name?: string
+;
+}
+>
+  >
+    {
+        let path = '/endpoint-with-all-of';
+        let headers: Headers = new Headers();
+        let queryParameters: QueryParameters = {};
 
-    queryParameters['queryParam4'] = [1, 'Two', 'Three', 4];
+        headers.append('Accept', 'application/json');
 
-    if (typeof parameters['queryParam4'] !== 'undefined') {
-      queryParameters['queryParam4'] = parameters['queryParam4'];
+
+        return this.request(
+            'GET',
+            \`\${this.baseUrl}\${path}\`,
+            {},
+            headers,
+            queryParameters
+        );
     }
-
-    queryParameters['queryParam4'] = this.transformParameter(
-      queryParameters['queryParam4'],
-      'joinUsingPipes',
-    );
-
-    if (typeof parameters['queryParam5'] !== 'undefined') {
-      queryParameters['queryParam5'] = parameters['queryParam5'];
-    }
-
-    queryParameters['queryParam5'] = this.transformParameter(
-      queryParameters['queryParam5'],
-    );
-
-    path = path.replace('{path_parameter_1}', pathParameter1.toString());
-
-    path = path.replace('{path_parameter_2}', pathParameter2.toString());
-
-    path = path.replace('{path_parameter_3}', pathParameter3.toString());
-
-    return this.request(
-      'GET',
-      \`\${this.baseUrl}\${path}\`,
-      {},
-      headers,
-      queryParameters,
-    );
-  }
-  /**
-   *
-   * @method
-   * @name Api#simplePostOperation
-   */
-  simplePostOperation(
-    pathParameter1: string,
-    pathParameter2: string,
-    pathParameter3: string,
-    parameters: {} = {},
-    body: {
-      date?: string;
-
-      ttl?: number;
-
-      ips?: Array<string | null> | null;
-    },
-  ): Promise<Something> {
-    let path =
-      '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
-    let headers: Headers = new Headers();
-    let queryParameters: QueryParameters = {};
-
-    headers = this.appendAuthHeaders(headers);
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
-
-    path = path.replace('{path_parameter_1}', pathParameter1.toString());
-
-    path = path.replace('{path_parameter_2}', pathParameter2.toString());
-
-    path = path.replace('{path_parameter_3}', pathParameter3.toString());
-
-    return this.request(
-      'POST',
-      \`\${this.baseUrl}\${path}\`,
-      body,
-      headers,
-      queryParameters,
-    );
-  }
-  /**
-   *
-   * @method
-   * @name Api#simpleUploadOperation
-   */
-  simpleUploadOperation(
-    parameters: {} = {},
-    form: {
-      upload: File;
-    },
-  ): Promise<{
-    _id?: string;
-  }> {
-    let path = '/upload';
-    let headers: Headers = new Headers();
-    let queryParameters: QueryParameters = {};
-
-    headers = this.appendAuthHeaders(headers);
-    headers.append('Content-Type', 'multipart/form-data');
-    headers.append('Accept', 'application/json');
-
-    return this.request(
-      'POST',
-      \`\${this.baseUrl}\${path}\`,
-      form,
-      headers,
-      queryParameters,
-    );
-  }
-  /**
-   *
-   * @method
-   * @name Api#endpointWithoutOkResponse
-   */
-  endpointWithoutOkResponse(parameters: {} = {}): Promise<void> {
-    let path = '/endpoint-without-ok-response';
-    let headers: Headers = new Headers();
-    let queryParameters: QueryParameters = {};
-
-    headers.append('Accept', 'application/json');
-
-    return this.request(
-      'GET',
-      \`\${this.baseUrl}\${path}\`,
-      {},
-      headers,
-      queryParameters,
-    );
-  }
-  /**
-   *
-   * @method
-   * @name Api#endpointWithAllOf
-   */
-  endpointWithAllOf(parameters: {} = {}): Promise<
-    Array<{
-      _id: string;
-
-      name?: string;
-    }>
-  > {
-    let path = '/endpoint-with-all-of';
-    let headers: Headers = new Headers();
-    let queryParameters: QueryParameters = {};
-
-    headers.append('Accept', 'application/json');
-
-    return this.request(
-      'GET',
-      \`\${this.baseUrl}\${path}\`,
-      {},
-      headers,
-      queryParameters,
-    );
-  }
 }
 
 export default new Api();
@@ -1222,29 +1262,20 @@ export { Api };
 `;
 
 exports[`Generates TYPESCRIPT class from Swagger 2 spec 1`] = `
-"/* tslint:disable */
-import 'isomorphic-fetch';
+"export type ThenArg<T> = T extends Promise<infer U>
+    ? U
+    : T extends (...args: any[]) => Promise<infer U>
+    ? U
+    : T;
 
-export type ThenArg<T> = T extends Promise<infer U>
-  ? U
-  : T extends (...args: any[]) => Promise<infer U>
-  ? U
-  : T;
 
-type QueryParameters = {
-  [key: string]:
-    | string
-    | number
-    | string[]
-    | number[]
-    | boolean
-    | boolean[]
-    | undefined;
-};
+type QueryParameters = { [key: string]: string | number | string[] | number[] | boolean | boolean[] | undefined };
 
 export type Something = {
-  _id?: string;
-};
+    _id?: string
+;
+}
+;
 
 class ApiError {
   public message: string;
@@ -1256,309 +1287,379 @@ class ApiError {
 }
 
 /**
- *
+ * 
  * @class Api
  * @param {(string)} [domainOrOptions] - The project domain.
  */
 class Api {
-  protected baseUrl: string = '';
-  protected headers: { name: string; value: string }[] = [];
-  protected token: string = '';
 
-  serializeQueryParams(parameters: QueryParameters) {
-    return Object.keys(parameters)
-      .reduce((acc: string[], p) => {
-        const param = parameters[p];
-        if (typeof param === 'undefined' || param === '') {
-          return acc;
+    protected baseUrl: string = \\"\\";
+    protected headers: {name: string, value: string}[] = [];
+    protected token: string = '';
+
+    serializeQueryParams(parameters: QueryParameters) {
+        return Object.keys(parameters)
+            .reduce((acc: string[], p) => {
+                const param = parameters[p];
+                if(typeof param === 'undefined' || param === '') {
+                    return acc;
+                }
+                return [...acc, \`\${encodeURIComponent(p)}=\${encodeURIComponent(
+                String(parameters[p]),
+                )}\`];
+            }, [])
+            .join('&');
+    }
+
+    protected transformParameter(value: any, transformOperation?: string) {
+        switch(transformOperation) {
+            case 'joinUsingPipes':
+                return Array.isArray(value) ? value.join('|') : value;
+            default:
+                return value;
         }
-        return [
-          ...acc,
-          \`\${encodeURIComponent(p)}=\${encodeURIComponent(
-            String(parameters[p]),
-          )}\`,
-        ];
-      }, [])
-      .join('&');
-  }
-
-  protected transformParameter(value: any, transformOperation?: string) {
-    switch (transformOperation) {
-      case 'joinUsingPipes':
-        return Array.isArray(value) ? value.join('|') : value;
-      default:
-        return value;
     }
-  }
 
-  public setBaseUrl(baseUrl: string) {
-    this.baseUrl = baseUrl;
-  }
-
-  public setHeaders(headers: { name: string; value: string }[]) {
-    this.headers = headers;
-  }
-
-  public setToken(token: string) {
-    this.token = token;
-  }
-
-  protected appendAuthHeaders(headerParams: Headers) {
-    const headers = new Headers(headerParams);
-    if (this.token) {
-      headers.append('Authorization', \`Bearer \${this.token}\`);
+    public setBaseUrl(baseUrl: string) {
+        this.baseUrl = baseUrl;
     }
-    return headers;
-  }
 
-  private async request(
-    method: string,
-    url: string,
-    body: any,
-    headers: Headers = new Headers(),
-    queryParameters: QueryParameters = {},
-  ) {
-    const queryParams =
-      queryParameters && Object.keys(queryParameters).length
-        ? this.serializeQueryParams(queryParameters)
-        : null;
-    const urlWithParams = url + (queryParams ? '?' + queryParams : '');
+    public setHeaders(headers: {name: string, value: string}[]) {
+        this.headers = headers;
+    }
 
-    if (headers.get('Content-Type') === 'multipart/form-data') {
-      const form = new FormData();
-      for (let k in body) {
-        form.append(k, body[k]);
+    public setToken(token: string) {
+        this.token = token;
+    }
+
+
+    protected appendAuthHeaders(headerParams: Headers) {
+      const headers = new Headers(headerParams);
+      if (this.token) {
+        headers.append('Authorization', \`Bearer \${this.token}\`);
       }
-      body = form;
-    } else if (
-      headers.get('Content-Type') === 'application/json' &&
-      body &&
-      Object.keys(body).length > 0
-    ) {
-      body = JSON.stringify(body);
-    } else {
-      body = undefined;
+      return headers;
     }
 
-    if (headers.get('Content-Type') === 'multipart/form-data') {
-      headers.delete('Content-Type');
+    private async request(method: string, url: string, body: any, headers: Headers = new Headers(), queryParameters: QueryParameters = {}) {
+        const queryParams = queryParameters && Object.keys(queryParameters).length ? this.serializeQueryParams(queryParameters) : null ;
+        const urlWithParams = url + (queryParams ? '?' + queryParams : '');
+
+        if(headers.get('Content-Type') === 'multipart/form-data') {
+            const form = new FormData();
+            for (let k in body) {
+                form.append(k, body[k]);
+            }
+            body = form;
+        } else if(headers.get('Content-Type') === 'application/json' && body && Object.keys(body).length > 0) {
+            body = JSON.stringify(body);
+        } else {
+            body = undefined;
+        }
+
+        if(headers.get('Content-Type') === 'multipart/form-data') {
+            headers.delete('Content-Type');
+        }
+
+        if (this.headers.length > 0) {
+            this.headers.forEach(h => {
+                headers.append(h.name, h.value);
+            });
+        }
+
+        const response = await fetch(urlWithParams, { method, headers, body });
+
+        if (response.status === 204) return response;
+
+        if(response.ok) {
+            const responseContentType =
+                (response.headers && response.headers.get('Content-Type')) || '';
+            if (responseContentType.includes('application/json')) {
+                return response.json();
+            }
+            return response;
+        } else {
+            const err = new ApiError(response.statusText);
+            err.details = await response.json();
+            throw err;
+        }
     }
 
-    if (this.headers.length > 0) {
-      this.headers.forEach((h) => {
-        headers.append(h.name, h.value);
-      });
-    }
-
-    const response = await fetch(urlWithParams, { method, headers, body });
-
-    if (response.status === 204) return response;
-
-    if (response.ok) {
-      const responseContentType =
-        (response.headers && response.headers.get('Content-Type')) || '';
-      if (responseContentType.includes('application/json')) {
-        return response.json();
-      }
-      return response;
-    } else {
-      const err = new ApiError(response.statusText);
-      err.details = await response.json();
-      throw err;
-    }
-  }
-
-  /**
-   *
-   * @method
-   * @name Api#simpleGetOperation
-   */
-  simpleGetOperation(
-    pathParameter1: string,
-    pathParameter2: string,
-    pathParameter3: string,
-    parameters: {
-      queryParam1: string;
-      queryParam2?: Array<string>;
-      queryParam3?: 'ACTIVE' | 'INACTIVE';
-      queryParam4?: Array<string>;
-      queryParam5?: string;
-    },
-  ): Promise<{
+    /**
+    * 
+    * @method
+    * @name Api#simpleGetOperation
+    */
+    simpleGetOperation(
+            
+            
+            
+            
+            
+            pathParameter1: string
+,
+            pathParameter2: string
+,
+            pathParameter3: string
+,
+        parameters: {
+                        'queryParam1': string
+,
+                        'queryParam2'?: Array<string
+>
+,
+                        'queryParam3'?: \\"ACTIVE\\" | \\"INACTIVE\\"
+,
+                        'queryParam4'?: Array<string
+>
+,
+                        'queryParam5'?: string
+,
+        } ,
+    ): Promise< {
     items?: Array<{
-      _id?: string;
+    _id?: string
+;
 
-      date?: string;
+    date?: string
+;
 
-      name?: string;
+    name?: string
+;
 
-      ttl?: number;
+    ttl?: number
+;
 
-      status_log?: Array<{
-        ips?: Array<string | null> | null;
-      }>;
-    }>;
-  }> {
-    let path =
-      '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
-    let headers: Headers = new Headers();
-    let queryParameters: QueryParameters = {};
+    status_log?: Array<{
+    ips?: Array<string|null>|null
+;
+}
+>
+;
+}
+>
+;
+}
+  >
+    {
+        let path = '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
+        let headers: Headers = new Headers();
+        let queryParameters: QueryParameters = {};
 
-    headers.append('Accept', 'application/json');
+        headers.append('Accept', 'application/json');
 
-    if (typeof parameters['queryParam1'] !== 'undefined') {
-      queryParameters['queryParam1'] = parameters['queryParam1'];
+
+            if(typeof parameters['queryParam1'] !== 'undefined'){
+                queryParameters['queryParam1'] = parameters['queryParam1'];
+            }
+
+            queryParameters['queryParam1'] = this.transformParameter(queryParameters['queryParam1']);
+
+
+
+                if(typeof parameters['queryParam1'] === 'undefined') {
+                    throw new Error('Missing required parameter: queryParam1');
+                }
+
+
+            if(typeof parameters['queryParam2'] !== 'undefined'){
+                queryParameters['queryParam2'] = parameters['queryParam2'];
+            }
+
+            queryParameters['queryParam2'] = this.transformParameter(queryParameters['queryParam2']);
+
+
+
+
+              queryParameters['query_param_3'] = \\"ACTIVE\\";
+
+            if(typeof parameters['queryParam3'] !== 'undefined'){
+                queryParameters['query_param_3'] = parameters['queryParam3'];
+            }
+
+            queryParameters['query_param_3'] = this.transformParameter(queryParameters['query_param_3']);
+
+
+
+
+              queryParameters['queryParam4'] = [1,\\"Two\\",\\"Three\\",4];
+
+            if(typeof parameters['queryParam4'] !== 'undefined'){
+                queryParameters['queryParam4'] = parameters['queryParam4'];
+            }
+
+            queryParameters['queryParam4'] = this.transformParameter(queryParameters['queryParam4'], 'joinUsingPipes');
+
+
+
+
+
+            if(typeof parameters['queryParam5'] !== 'undefined'){
+                queryParameters['queryParam5'] = parameters['queryParam5'];
+            }
+
+            queryParameters['queryParam5'] = this.transformParameter(queryParameters['queryParam5']);
+
+
+
+
+
+            path = path.replace('{path_parameter_1}', pathParameter1.toString());
+
+
+
+
+            path = path.replace('{path_parameter_2}', pathParameter2.toString());
+
+
+
+
+            path = path.replace('{path_parameter_3}', pathParameter3.toString());
+
+
+
+
+        return this.request(
+            'GET',
+            \`\${this.baseUrl}\${path}\`,
+            {},
+            headers,
+            queryParameters
+        );
     }
 
-    queryParameters['queryParam1'] = this.transformParameter(
-      queryParameters['queryParam1'],
-    );
+    /**
+    * 
+    * @method
+    * @name Api#simplePostOperation
+    */
+    simplePostOperation(
+            
+            pathParameter1: string
+,
+            pathParameter2: string
+,
+            pathParameter3: string
+,
+        parameters: {
+        } ,
+                        body:
+                                                        {
 
-    if (typeof parameters['queryParam1'] === 'undefined') {
-      throw new Error('Missing required parameter: queryParam1');
+                                  date?: string
+;
+
+
+                                  ttl?: number
+;
+
+                                  ips?: Array<string|null>|null
+;
+                            }
+,
+    ): Promise< Something
+  >
+    {
+        let path = '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
+        let headers: Headers = new Headers();
+        let queryParameters: QueryParameters = {};
+
+        headers = this.appendAuthHeaders(headers);
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json');
+
+
+
+
+
+
+            path = path.replace('{path_parameter_1}', pathParameter1.toString());
+
+
+
+
+            path = path.replace('{path_parameter_2}', pathParameter2.toString());
+
+
+
+
+            path = path.replace('{path_parameter_3}', pathParameter3.toString());
+
+
+
+
+        return this.request(
+            'POST',
+            \`\${this.baseUrl}\${path}\`,
+            body,
+            headers,
+            queryParameters
+        );
     }
 
-    if (typeof parameters['queryParam2'] !== 'undefined') {
-      queryParameters['queryParam2'] = parameters['queryParam2'];
+    /**
+    * 
+    * @method
+    * @name Api#endpointWithoutOkResponse
+    */
+    endpointWithoutOkResponse(
+        parameters: {
+        }  = {},
+    ): Promise<void>
+    {
+        let path = '/endpoint-without-ok-response';
+        let headers: Headers = new Headers();
+        let queryParameters: QueryParameters = {};
+
+        headers.append('Accept', 'application/json');
+
+
+        return this.request(
+            'GET',
+            \`\${this.baseUrl}\${path}\`,
+            {},
+            headers,
+            queryParameters
+        );
     }
 
-    queryParameters['queryParam2'] = this.transformParameter(
-      queryParameters['queryParam2'],
-    );
+    /**
+    * Upload new document
+    * @method
+    * @name Api#simpleUpload
+    */
+    simpleUpload(
+            
+        parameters: {
+        } ,
+            form: {
+                            'upload': File
+,
+            }
+                ): Promise< {}
+  >
+    {
+        let path = '/upload';
+        let headers: Headers = new Headers();
+        let queryParameters: QueryParameters = {};
 
-    queryParameters['query_param_3'] = 'ACTIVE';
+        headers = this.appendAuthHeaders(headers);
+        headers.append('Content-Type', 'multipart/form-data');
 
-    if (typeof parameters['queryParam3'] !== 'undefined') {
-      queryParameters['query_param_3'] = parameters['queryParam3'];
+
+
+
+
+
+        return this.request(
+            'POST',
+            \`\${this.baseUrl}\${path}\`,
+            form,
+            headers,
+            queryParameters
+        );
     }
 
-    queryParameters['query_param_3'] = this.transformParameter(
-      queryParameters['query_param_3'],
-    );
-
-    queryParameters['queryParam4'] = [1, 'Two', 'Three', 4];
-
-    if (typeof parameters['queryParam4'] !== 'undefined') {
-      queryParameters['queryParam4'] = parameters['queryParam4'];
-    }
-
-    queryParameters['queryParam4'] = this.transformParameter(
-      queryParameters['queryParam4'],
-      'joinUsingPipes',
-    );
-
-    if (typeof parameters['queryParam5'] !== 'undefined') {
-      queryParameters['queryParam5'] = parameters['queryParam5'];
-    }
-
-    queryParameters['queryParam5'] = this.transformParameter(
-      queryParameters['queryParam5'],
-    );
-
-    path = path.replace('{path_parameter_1}', pathParameter1.toString());
-
-    path = path.replace('{path_parameter_2}', pathParameter2.toString());
-
-    path = path.replace('{path_parameter_3}', pathParameter3.toString());
-
-    return this.request(
-      'GET',
-      \`\${this.baseUrl}\${path}\`,
-      {},
-      headers,
-      queryParameters,
-    );
-  }
-
-  /**
-   *
-   * @method
-   * @name Api#simplePostOperation
-   */
-  simplePostOperation(
-    pathParameter1: string,
-    pathParameter2: string,
-    pathParameter3: string,
-    parameters: {},
-    body: {
-      date?: string;
-
-      ttl?: number;
-
-      ips?: Array<string | null> | null;
-    },
-  ): Promise<Something> {
-    let path =
-      '/path/{path_parameter_1}/segment/{path_parameter_2}/{path_parameter_3}';
-    let headers: Headers = new Headers();
-    let queryParameters: QueryParameters = {};
-
-    headers = this.appendAuthHeaders(headers);
-    headers.append('Accept', 'application/json');
-    headers.append('Content-Type', 'application/json');
-
-    path = path.replace('{path_parameter_1}', pathParameter1.toString());
-
-    path = path.replace('{path_parameter_2}', pathParameter2.toString());
-
-    path = path.replace('{path_parameter_3}', pathParameter3.toString());
-
-    return this.request(
-      'POST',
-      \`\${this.baseUrl}\${path}\`,
-      body,
-      headers,
-      queryParameters,
-    );
-  }
-
-  /**
-   *
-   * @method
-   * @name Api#endpointWithoutOkResponse
-   */
-  endpointWithoutOkResponse(parameters: {} = {}): Promise<void> {
-    let path = '/endpoint-without-ok-response';
-    let headers: Headers = new Headers();
-    let queryParameters: QueryParameters = {};
-
-    headers.append('Accept', 'application/json');
-
-    return this.request(
-      'GET',
-      \`\${this.baseUrl}\${path}\`,
-      {},
-      headers,
-      queryParameters,
-    );
-  }
-
-  /**
-   * Upload new document
-   * @method
-   * @name Api#simpleUpload
-   */
-  simpleUpload(
-    parameters: {},
-    form: {
-      upload: File;
-    },
-  ): Promise<{}> {
-    let path = '/upload';
-    let headers: Headers = new Headers();
-    let queryParameters: QueryParameters = {};
-
-    headers = this.appendAuthHeaders(headers);
-    headers.append('Content-Type', 'multipart/form-data');
-
-    return this.request(
-      'POST',
-      \`\${this.baseUrl}\${path}\`,
-      form,
-      headers,
-      queryParameters,
-    );
-  }
 }
 
 export default new Api();
