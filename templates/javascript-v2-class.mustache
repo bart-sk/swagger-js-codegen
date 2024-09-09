@@ -112,17 +112,15 @@ class {{&className}} {
           }
         }
 
+        if (response.status === 204) return response;
+        
         if (response.ok) {
           const responseContentType =
             (response.headers && response.headers.get('Content-Type')) || '';
           if (responseContentType.includes('application/json')) {
             return response.json();
-          } else if (responseContentType.includes('application/pdf')) {
-            return response.blob();
-          } else if (responseContentType.includes('text/plain')) {
-            return response.text();
           }
-          return {};
+          return response;
         } else {
           let error = new Error(response.statusText);
           error.response = response;
