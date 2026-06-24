@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Generates JAVASCRIPT class from Open Api 3.0 spec 1`] = `
 "/* eslint-disable */
